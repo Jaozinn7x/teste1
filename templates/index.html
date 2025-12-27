@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imobiliária Luxo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        /* Garantia extra de fonte */
+        body, button, input, select, textarea { font-family: 'Poppins', sans-serif; }
+        
+        /* Ajuste para ícones simples na barra de vantagens se não tiver imagens */
+        .icon-vantagem { font-size: 24px; color: #c0a16b; }
+        
+        /* Container da barra que faltava no HTML */
+        .container-vantagens {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        /* Responsividade da barra */
+        @media (max-width: 768px) {
+            .container-vantagens { flex-direction: column; gap: 30px; }
+            .divisor-vantagem { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="menu-superior">
+        <div class="container-menu">
+            <div class="logo">
+                <h1>IMOBILIÁRIA</h1> 
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('homepage') }}">Início</a>
+                <a href="{{ url_for('sobre') }}">Sobre</a>
+                <a href="{{ url_for('busca') }}">Buscar Imóvel</a>
+                <a href="{{ url_for('contato') }}">Contato</a>
+            </nav>
+            <div class="contato-topo">
+                <span>📞 (11) 99999-9999</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="caixa-inicio">
+        <img src="{{ url_for('static', filename='img/foto inicio.png') }}" 
+             alt="Banner Principal" 
+             class="foto-banner">
+
+        <div class="faixa-busca">
+            <h2 class="titulo-busca">Encontre seu Imóvel Ideal</h2>
+            <form action="{{ url_for('busca') }}">
+                <select name="finalidade" class="campo-busca">
+                    <option value="" disabled selected>O que deseja?</option>
+                    <option value="comprar">Comprar</option>
+                    <option value="alugar">Alugar</option>
+                </select>
+                <select name="cidade" class="campo-busca">
+                    <option value="" disabled selected>Cidade</option>
+                    <option value="sao-paulo">São Paulo</option>
+                    <option value="rio">Rio de Janeiro</option>
+                </select>
+                <select name="bairro" class="campo-busca">
+                    <option value="" disabled selected>Bairro</option>
+                    <option value="centro">Centro</option>
+                    <option value="jardins">Jardins</option>
+                </select>
+                <select name="tipo" class="campo-busca">
+                    <option value="" disabled selected>Tipo</option>
+                    <option value="casa">Casa</option>
+                    <option value="apartamento">Apartamento</option>
+                </select>
+                <button type="submit" class="btn-buscar">BUSCAR</button>
+            </form>
+        </div>
+
+        <div class="caixa-secundaria">
+            <img src="{{ url_for('static', filename='img/destaque-moderna.jpg') }}" 
+                 alt="Destaque" class="foto-destaque">
+            <h3>Oportunidade</h3>
+            <p>Casa moderna com pé direito alto.</p>
+            <button>Ver Detalhes</button>
+        </div>
+    </div>
+
+    <div class="barra-vantagens">
+        <div class="container-vantagens">
+            <div class="item-vantagem">
+                <span class="icon-vantagem">💎</span>
+                <div class="texto-vantagem">
+                    <strong>Imóveis Exclusivos</strong>
+                    <span>Curadoria de alto padrão</span>
+                </div>
+            </div>
+            <div class="divisor-vantagem" style="width:1px; height:40px; background:#333;"></div>
+            <div class="item-vantagem">
+                <span class="icon-vantagem">⚖️</span>
+                <div class="texto-vantagem">
+                    <strong>Assessoria Jurídica</strong>
+                    <span>Segurança total no contrato</span>
+                </div>
+            </div>
+            <div class="divisor-vantagem" style="width:1px; height:40px; background:#333;"></div>
+            <div class="item-vantagem">
+                <span class="icon-vantagem">🔑</span>
+                <div class="texto-vantagem">
+                    <strong>Visitas Privativas</strong>
+                    <span>Agende no seu horário</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="super-slider">
+        <a href="{{ url_for('busca') }}" class="slide-zao fade">
+            <img src="{{ url_for('static', filename='img/casa 1.png') }}" alt="Mansão Exclusiva">
+            <div class="legenda-slide">
+                <span class="tag-destaque">Exclusividade</span>
+                <h2>Mansão Alphaville</h2>
+                <p>5 Suítes | Piscina Infinita | Cinema Privativo</p>
+                <button class="btn-ver-slide">Ver Casa Agora</button>
+            </div>
+        </a>
+
+        <a href="{{ url_for('busca') }}" class="slide-zao fade">
+            <img src="{{ url_for('static', filename='img/casa 2.png') }}" alt="Penthouse">
+            <div class="legenda-slide">
+                <span class="tag-destaque">Oportunidade</span>
+                <h2>Penthouse Jardins</h2>
+                <p>Duplex | 400m² | Área Gourmet Completa</p>
+                <button class="btn-ver-slide">Ver Cobertura</button>
+            </div>
+        </a>
+
+        <a href="{{ url_for('busca') }}" class="slide-zao fade">
+            <img src="{{ url_for('static', filename='img/casa 3.png') }}" alt="Casa de Campo">
+            <div class="legenda-slide">
+                <span class="tag-destaque">Lançamento</span>
+                <h2>Refúgio no Campo</h2>
+                <p>Condomínio Fechado | Lago Privativo</p>
+                <button class="btn-ver-slide">Conhecer Projeto</button>
+            </div>
+        </a>
+
+        <a class="prev" onclick="plusSlides(-1, event)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1, event)">&#10095;</a>
+    </section>
+
+    <section class="secao-destaques">
+        <div class="cabecalho-secao">
+            <h2>Melhores Propostas</h2>
+            <p>Imóveis selecionados exclusivamente para você.</p>
+        </div>
+
+        <div class="carrossel-container">
+            <button class="btn-seta pre" onclick="moverCarrossel(-1)">&#10094;</button>
+            
+            <div class="carrossel-trilho" id="trilho">
+                <div class="card-imovel">
+                    <div class="card-img">
+                        <img src="{{ url_for('static', filename='img/casa 1.png') }}" alt="Casa 1">
+                        <span class="etiqueta">Venda</span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="preco">R$ 1.250.000</h3>
+                        <h4 class="titulo-imovel">Casa de Alto Padrão</h4>
+                        <div class="detalhes-icones">
+                            <span>🛏️ 3 Quartos</span><span>🚿 2 Banheiros</span>
+                        </div>
+                        <button class="btn-ver-mais">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <div class="card-imovel">
+                    <div class="card-img">
+                        <img src="{{ url_for('static', filename='img/casa 2.png') }}" alt="Casa 2">
+                        <span class="etiqueta">Aluguel</span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="preco">R$ 5.500 /mês</h3>
+                        <h4 class="titulo-imovel">Apartamento Centro</h4>
+                        <div class="detalhes-icones">
+                            <span>🛏️ 2 Quartos</span><span>🚿 1 Banheiro</span>
+                        </div>
+                        <button class="btn-ver-mais">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <div class="card-imovel">
+                    <div class="card-img">
+                        <img src="{{ url_for('static', filename='img/casa 3.png') }}" alt="Casa 3">
+                        <span class="etiqueta">Venda</span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="preco">R$ 890.000</h3>
+                        <h4 class="titulo-imovel">Sobrado Condomínio</h4>
+                        <div class="detalhes-icones">
+                            <span>🛏️ 3 Quartos</span><span>🚗 2 Vagas</span>
+                        </div>
+                        <button class="btn-ver-mais">Ver Detalhes</button>
+                    </div>
+                </div>
+
+                <div class="card-imovel">
+                    <div class="card-img">
+                        <img src="{{ url_for('static', filename='img/casa 4.png') }}" alt="Casa 4">
+                        <span class="etiqueta">Venda</span>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="preco">R$ 2.100.000</h3>
+                        <h4 class="titulo-imovel">Mansão Minimalista</h4>
+                        <div class="detalhes-icones">
+                            <span>🛏️ 4 Suítes</span><span>📐 350m²</span>
+                        </div>
+                        <button class="btn-ver-mais">Ver Detalhes</button>
+                    </div>
+                </div>
+
+            </div> 
+            <button class="btn-seta pro" onclick="moverCarrossel(1)">&#10095;</button>
+        </div>
+    </section>
+
+    <script>
+        // --- 1. Lógica do Carrossel de Cards (Pequenos) ---
+        function moverCarrossel(direcao) {
+            const container = document.getElementById('trilho');
+            const scrollAmount = 340; // Tamanho do card + gap
+            container.scrollBy({ left: direcao * scrollAmount, behavior: 'smooth' });
+        }
+
+        // --- 2. Lógica do Super Slider (Grande) ---
+        let slideIndex = 1;
+        let slideTimer;
+
+        // Inicia o slider assim que a página carrega
+        document.addEventListener("DOMContentLoaded", function() {
+            showSlides(slideIndex);
+            startAutoPlay();
+        });
+
+        function plusSlides(n, event) {
+            if(event) event.preventDefault(); 
+            clearInterval(slideTimer); // Para o timer para não pular duplo
+            showSlides(slideIndex += n);
+            startAutoPlay(); // Reinicia o timer
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slide-zao");
+            
+            // Se não houver slides, para a função para evitar erro
+            if (slides.length === 0) return;
+
+            if (n > slides.length) {slideIndex = 1}    
+            if (n < 1) {slideIndex = slides.length}
+            
+            // Esconde todos
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+                slides[i].classList.remove('active');
+            }
+            
+            // Mostra o atual
+            slides[slideIndex-1].style.display = "flex"; 
+            
+            // Pequeno delay para permitir a transição CSS (fade/zoom)
+            setTimeout(() => {
+                if(slides[slideIndex-1]) {
+                    slides[slideIndex-1].classList.add('active');
+                }
+            }, 10);
+        }
+
+        function startAutoPlay() {
+            slideTimer = setInterval(function() {
+                plusSlides(1);
+            }, 5000); // 5 segundos
+        }
+    </script>
+
+</body>
+</html>

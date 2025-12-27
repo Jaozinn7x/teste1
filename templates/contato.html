@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Imobiliária Luxo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        body { 
+            font-family: 'Poppins', sans-serif; /* Fonte Original */
+            background-color: #f9f9f9;
+            color: #444;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif; /* Garante que títulos usem Poppins */
+            color: #0f2027;
+            font-weight: 700; /* Negrito para destacar, já que tiramos a serifa */
+            letter-spacing: -0.5px; /* Deixa o título mais moderno */
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+        
+        /* --- HERO SECTION (BANNER) --- */
+        .page-hero {
+            position: relative;
+            text-align: center;
+            padding: 120px 20px 160px; /* Espaço embaixo para a barra flutuante */
+            /* Imagem de fundo premium */
+            background: linear-gradient(rgba(15, 32, 39, 0.9), rgba(32, 58, 67, 0.85)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border-radius: 0 0 50% 50% / 20px; /* Curva suave na base */
+            margin-bottom: 80px;
+        }
+        
+        .page-hero h1 {
+            font-size: 50px; /* Levemente menor que a serifa para não ficar gigante */
+            margin-bottom: 15px;
+            color: #fff;
+            text-transform: uppercase; /* Fica mais elegante em Sans Serif */
+            letter-spacing: 2px;
+        }
+        
+        .page-hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* --- BARRA FLUTUANTE DE CONTATO --- */
+        .contact-bar {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            max-width: 1000px;
+            margin: -100px auto 80px; /* Puxa para cima do banner */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            background-color: #fcfcfc;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #f0f4f8;
+            color: #0f2027; /* Azul escuro da marca */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .contact-info h4 {
+            margin: 0;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .contact-info span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f2027;
+        }
+
+        /* --- GRID PRINCIPAL (FORM + MAPA) --- */
+        .contato-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* Formulário */
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .form-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0f2027; /* Foco na cor da marca */
+            background-color: #fff;
+        }
+
+        .btn-enviar {
+            width: 100%;
+            padding: 18px;
+            background-color: #0f2027;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-enviar:hover {
+            background-color: #203a43;
+            transform: translateY(-2px);
+        }
+
+        /* Mapa e Endereço */
+        .mapa-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .mapa-header {
+            padding: 30px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .mapa-header .icon-large {
+            font-size: 30px;
+        }
+
+        .mapa-header h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .mapa-header p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .mapa-frame {
+            width: 100%;
+            height: 450px;
+        }
+
+        .mapa-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 900px) {
+            .contact-bar {
+                flex-direction: column;
+                gap: 20px;
+                margin-top: -60px;
+                text-align: center;
+                align-items: stretch;
+            }
+            
+            .contact-item {
+                justify-content: center;
+                background-color: #f9f9f9;
+            }
+
+            .contato-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="menu-superior">
+        <div class="container-menu">
+            <div class="logo">
+                <h1>IMOBILIÁRIA</h1> 
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('homepage') }}">Início</a>
+                <a href="{{ url_for('sobre') }}">Sobre</a>
+                <a href="{{ url_for('busca') }}">Buscar Imóvel</a>
+                <a href="{{ url_for('contato') }}" class="ativo">Contato</a>
+            </nav>
+            <div class="contato-topo">
+                <span>📞 (11) 99999-9999</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <div class="main-container">
+            <h1>Fale Conosco</h1>
+            <p>Estamos prontos para entender seus objetivos e apresentar as melhores oportunidades do mercado.</p>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="contact-bar">
+            <a href="tel:+5511999999999" class="contact-item">
+                <div class="contact-icon">📞</div>
+                <div class="contact-info">
+                    <h4>Ligue Agora</h4>
+                    <span>(11) 99999-9999</span>
+                </div>
+            </a>
+            
+            <a href="mailto:contato@imobiliarialuxo.com.br" class="contact-item">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-info">
+                    <h4>E-mail</h4>
+                    <span>contato@luxo.com</span>
+                </div>
+            </a>
+
+            <a href="https://wa.me/5511999999999" class="contact-item">
+                <div class="contact-icon">💬</div>
+                <div class="contact-info">
+                    <h4>WhatsApp</h4>
+                    <span>Conversar Agora</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="contato-grid">
+            
+            <div class="form-box">
+                <h2>Envie uma Mensagem</h2>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assunto">Interesse</label>
+                        <select id="assunto" name="assunto">
+                            <option value="compra">Quero Comprar</option>
+                            <option value="venda">Quero Vender</option>
+                            <option value="duvida">Tirar Dúvidas</option>
+                            <option value="parceria">Parceria</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem</label>
+                        <textarea id="mensagem" name="mensagem" rows="5" placeholder="Como podemos ajudar você hoje?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-enviar">Enviar Solicitação</button>
+                </form>
+            </div>
+
+            <div class="mapa-card">
+                <div class="mapa-header">
+                    <span class="icon-large">📍</span>
+                    <div>
+                        <h3>Visite Nossa Sede</h3>
+                        <p>Av. das Nações Unidas, 1234 - São Paulo/SP</p>
+                        <p style="font-size: 13px; color: #999; margin-top: 5px;">Seg a Sex: 09h às 19h | Sáb: 09h às 14h</p>
+                    </div>
+                </div>
+                
+                <div class="mapa-frame">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.051332675685!2d-46.65588768502144!3d-23.56134958468291!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Localização da Imobiliária">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

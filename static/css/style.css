@@ -1,0 +1,642 @@
+/* =========================================
+   1. ESTILO GERAL (RESET & VARIÁVEIS)
+   ========================================= */
+:root {
+    --cor-fundo: #f8f9fa;       
+    --cor-texto: #333333;       
+    --cor-titulo: #1a1a1d;      
+    
+    /* --- COR SÓBRIA (CORPO DO SITE) --- */
+    /* Azul Petróleo Escuro */
+    --cor-destaque: #0f2027;       
+    --cor-destaque-hover: #091418; 
+    
+    /* --- COR VIBRANTE (MENU & TELEFONE) --- */
+    /* Azul Neon Claro */
+    --azul-menu: #4facfe;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: 'Poppins', 'Segoe UI', sans-serif; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =========================================
+   2. MENU SUPERIOR (AZUL NEON)
+   ========================================= */
+.menu-superior {
+    background-color: #1a1a1d;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+    display: flex;
+    justify-content: center;
+}
+
+.container-menu {
+    width: 90%;
+    max-width: 1200px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #e0e0e0;
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: 0.3s;
+    padding-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+/* Hover vibrante no menu */
+.nav-links a:hover {
+    color: var(--azul-menu);
+    border-bottom: 2px solid var(--azul-menu);
+}
+
+/* Telefone Vibrante */
+.contato-topo span {
+    color: var(--azul-menu); 
+    font-weight: 600;
+    font-size: 15px;
+    background-color: rgba(79, 172, 254, 0.1); 
+    padding: 10px 25px;
+    border-radius: 30px; 
+    border: 1px solid var(--azul-menu); 
+    transition: 0.3s ease;
+}
+
+.contato-topo span:hover {
+    background-color: var(--azul-menu); 
+    color: #ffffff; 
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.4); 
+}
+
+/* =========================================
+   3. BANNER PRINCIPAL
+   ========================================= */
+.caixa-inicio {
+    position: relative;
+    margin-top: 80px; 
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+
+.foto-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6) contrast(1.1); 
+}
+
+/* =========================================
+   4. PESQUISA CENTRAL
+   ========================================= */
+.faixa-busca {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 50px;       
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    width: 85%;
+    max-width: 900px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titulo-busca {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+.faixa-busca form {
+    display: flex;
+    flex-wrap: wrap;       
+    gap: 15px;
+    width: 100%;
+}
+
+.campo-busca {
+    flex: 1;
+    min-width: 180px;
+    padding: 18px;
+    border: none;
+    border-radius: 4px;    
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #ffffff;
+    outline: none;
+}
+
+/* Botão de Busca (Escuro) */
+.btn-buscar {
+    flex-basis: 100%;    
+    margin-top: 20px;
+    padding: 18px 0;
+    background-color: var(--cor-destaque); 
+    color: white;
+    border: none;
+    border-radius: 4px;   
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-buscar:hover {
+    background-color: var(--cor-destaque-hover);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   5. CAIXA SECUNDÁRIA (Card Lateral)
+   ========================================= */
+.caixa-secundaria {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 260px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    text-align: left;
+    z-index: 90;
+    display: none;
+}
+
+@media (min-width: 1400px) {
+    .caixa-secundaria {
+        display: block;
+        top: auto; 
+        bottom: 40px;
+        right: 40px;
+        transform: none;
+    }
+}
+
+.caixa-secundaria img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+
+.caixa-secundaria h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--cor-destaque); 
+    text-transform: uppercase;
+}
+
+.caixa-secundaria p {
+    font-size: 13px;
+    color: #666;
+    margin: 5px 0 15px 0;
+}
+
+.caixa-secundaria button {
+    background-color: #1a1a1d;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 2px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.caixa-secundaria button:hover {
+    background-color: var(--cor-destaque); 
+}
+
+/* =========================================
+   6. RESPONSIVIDADE (BUSCA)
+   ========================================= */
+@media (max-width: 900px) {
+    .caixa-secundaria { display: none; }
+    
+    .faixa-busca {
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    .titulo-busca {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    .faixa-busca form {
+        flex-direction: column;
+    }
+}
+
+/* =========================================
+   7. SEÇÃO DESTAQUES (CARROSSEL)
+   ========================================= */
+.secao-destaques {
+    padding: 40px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.cabecalho-secao h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #1a1a1d;
+}
+
+.cabecalho-secao p {
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.carrossel-container {
+    position: relative;
+    max-width: 2200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.carrossel-trilho {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 5px;
+    scrollbar-width: none;
+}
+.carrossel-trilho::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- ESTILO DO CARD --- */
+.card-imovel {
+    min-width: 320px;
+    max-width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    text-align: left;
+    border: 1px solid #eee;
+}
+
+.card-imovel:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.card-img {
+    height: 200px;
+    width: 100%;
+    position: relative;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.etiqueta {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: var(--cor-destaque); 
+    color: white;
+    padding: 5px 15px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.card-info {
+    padding: 20px;
+}
+
+.preco {
+    color: var(--cor-destaque); 
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.titulo-imovel {
+    font-size: 16px;
+    color: #444;
+    margin: 0 0 15px 0;
+    font-weight: 600;
+}
+
+.detalhes-icones {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #777;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.btn-ver-mais {
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: 1px solid var(--cor-destaque); 
+    color: var(--cor-destaque);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.btn-ver-mais:hover {
+    background-color: var(--cor-destaque);
+    color: white;
+}
+
+/* --- SETAS DE NAVEGAÇÃO (CORRIGIDAS) --- */
+.btn-seta {
+    background-color: rgba(0, 0, 0, 0.3); /* Fundo padrão semi-transparente */
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* EFEITO DE HOVER CORRIGIDO */
+.btn-seta:hover {
+    background-color: var(--cor-destaque); /* Fica Azul Escuro */
+    transform: scale(1.1); /* Cresce um pouco */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.btn-seta:active {
+    transform: scale(0.95);
+}
+
+.pre { left: -25px; }
+.pro { right: -25px; }
+
+@media (max-width: 768px) {
+    .btn-seta { display: none; }
+    .carrossel-trilho { padding: 20px; }
+}
+
+/* =========================================
+   8. SUPER SLIDER
+   ========================================= */
+.super-slider {
+    position: relative;
+    width: 100%;
+    height: 500px; 
+    margin: 0px 0;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.super-slider::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; 
+    background: linear-gradient(to bottom, transparent, #ffffff);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.slide-zao {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-zao img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    filter: none; 
+    transition: transform 6s ease;
+}
+
+.slide-zao.active img {
+    transform: scale(1.05);
+}
+
+.legenda-slide {
+    position: relative;
+    z-index: 4;
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4); 
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(5px);
+    max-width: 600px;
+    animation: subirTexto 1s ease forwards;
+}
+
+@keyframes subirTexto {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.tag-destaque {
+    background-color: #e74c3c; 
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.legenda-slide h2 {
+    font-size: 36px;
+    margin: 15px 0 10px;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+.legenda-slide p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    font-weight: 300;
+}
+
+.btn-ver-slide {
+    background-color: white;
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 30px; 
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* No hover do slider, usamos o Azul Neon */
+.slide-zao:hover .btn-ver-slide {
+    background-color: var(--azul-menu); 
+    color: white;
+    transform: scale(1.1);
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* =========================================
+   9. BARRA DE VANTAGENS (STRIP)
+   ========================================= */
+.barra-vantagens { 
+    background-color: #1a1a1d; 
+    padding: 40px 0; 
+    margin-top: 0;
+}
+
+.container-vantagens {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.item-vantagem {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon-vantagem {
+    font-size: 24px;
+    color: #c0a16b; /* Dourado suave para os ícones */
+}
+
+.texto-vantagem {
+    display: flex;
+    flex-direction: column;
+}
+
+.texto-vantagem strong {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.texto-vantagem span {
+    color: #999;
+    font-size: 13px;
+}
+
+.divisor-vantagem {
+    width: 1px;
+    height: 40px;
+    background-color: #333;
+}
+
+@media (max-width: 768px) {
+    .container-vantagens { flex-direction: column; gap: 30px; }
+    .divisor-vantagem { display: none; }
+}

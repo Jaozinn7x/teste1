@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Imóvel - Imobiliária Luxo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* --- GERAL --- */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #f9f9f9; 
+            color: #444;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4 { color: #0f2027; font-weight: 700; }
+
+        /* --- HERO SECTION --- */
+        .page-hero {
+            position: relative;
+            text-align: center;
+            padding: 80px 20px 140px;
+            background: linear-gradient(rgba(15, 32, 39, 0.9), rgba(32, 58, 67, 0.85)), 
+                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border-radius: 0 0 50% 50% / 20px;
+        }
+        
+        .page-hero h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+        }
+        
+        .page-hero p { font-size: 16px; opacity: 0.9; font-weight: 300; }
+
+        /* --- BARRA DE FILTROS HORIZONTAL --- */
+        .container-filtros {
+            max-width: 1100px;
+            margin: -80px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .barra-filtros {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .grupo-filtro {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .grupo-filtro label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #0f2027;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Estilo unificado para Select e Input Number */
+        .grupo-filtro select,
+        .grupo-filtro input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            background-color: #fff;
+            color: #555;
+            cursor: pointer;
+            box-sizing: border-box; /* Garante que o padding não estoure a largura */
+        }
+        
+        .grupo-filtro input[type="number"] {
+            cursor: text;
+        }
+
+        .grupo-filtro select:focus,
+        .grupo-filtro input:focus {
+            outline: none;
+            border-color: #0f2027;
+        }
+
+        .btn-aplicar {
+            padding: 14px 30px;
+            background-color: #0f2027;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+            height: 48px; /* Altura fixa para alinhar com os inputs */
+            min-width: 120px;
+        }
+
+        .btn-aplicar:hover { background-color: #071318; }
+
+        /* --- ÁREA DE RESULTADOS --- */
+        .main-resultados {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .topo-resultados {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .topo-resultados h2 { margin: 0; font-size: 22px; color: #333; }
+        #contador-resultados { font-size: 14px; color: #777; background: #fff; border: 1px solid #eee; padding: 5px 15px; border-radius: 20px; }
+
+        .lista-imoveis-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* --- CARD DE IMÓVEL --- */
+        .card-imovel {
+            display: flex;
+            flex-direction: row; 
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border: 1px solid #f0f0f0;
+            height: 240px;
+        }
+
+        .card-imovel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #0f2027;
+        }
+
+        .card-img {
+            width: 35%;
+            position: relative;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .etiqueta {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(15, 32, 39, 0.9);
+            color: white;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+
+        .card-info {
+            width: 65%;
+            padding: 25px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .top-info {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;
+        }
+
+        .preco { color: #0f2027; font-size: 24px; margin: 0; font-weight: 700; }
+        .titulo-imovel { font-size: 18px; color: #555; margin: 0 0 15px 0; font-weight: 500; }
+
+        .detalhes-icones {
+            display: flex; gap: 20px; color: #888; font-size: 13px; margin-bottom: 20px;
+        }
+
+        .btn-ver-mais {
+            align-self: flex-start;
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid #0f2027;
+            color: #0f2027;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .btn-ver-mais:hover { background: #0f2027; color: white; }
+
+        /* Mensagem Vazio */
+        .mensagem-vazio {
+            display: none; text-align: center; padding: 60px; color: #666; font-size: 18px;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 900px) {
+            .container-filtros { margin-top: -40px; }
+            
+            .barra-filtros {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .card-imovel {
+                flex-direction: column;
+                height: auto;
+            }
+            .card-img { width: 100%; height: 200px; }
+            .card-info { width: 100%; padding: 20px; }
+            .btn-ver-mais { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="menu-superior">
+        <div class="container-menu">
+            <div class="logo">
+                <h1>IMOBILIÁRIA</h1> 
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('homepage') }}">Início</a>
+                <a href="{{ url_for('sobre') }}">Sobre</a>
+                <a href="{{ url_for('busca') }}" class="ativo">Buscar Imóvel</a>
+                <a href="{{ url_for('contato') }}">Contato</a>
+            </nav>
+            <div class="contato-topo">
+                <span>📞 (11) 99999-9999</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <div class="main-container">
+            <h1>Encontre seu Lar</h1>
+            <p>Os imóveis mais exclusivos da região selecionados para você.</p>
+        </div>
+    </div>
+
+    <div class="container-filtros">
+        <form class="barra-filtros" id="form-filtros">
+            
+            <div class="grupo-filtro">
+                <label>Finalidade</label>
+                <select name="finalidade" id="finalidade" onchange="aplicarFiltros()">
+                    <option value="">Qualquer</option>
+                    <option value="comprar">Comprar</option>
+                    <option value="alugar">Alugar</option>
+                </select>
+            </div>
+
+            <div class="grupo-filtro">
+                <label>Cidade</label>
+                <select name="cidade" id="cidade" onchange="aplicarFiltros()">
+                    <option value="">Todas as Cidades</option>
+                    <option value="sao-paulo">São Paulo</option>
+                    <option value="rio">Rio de Janeiro</option>
+                    <option value="campinas">Campinas</option>
+                </select>
+            </div>
+
+            <div class="grupo-filtro">
+                <label>Bairro</label>
+                <select name="bairro" id="bairro" onchange="aplicarFiltros()">
+                    <option value="">Qualquer Bairro</option>
+                    <option value="centro">Centro</option>
+                    <option value="jardins">Jardins</option>
+                    <option value="barra">Barra da Tijuca</option>
+                </select>
+            </div>
+
+            <div class="grupo-filtro">
+                <label>Tipo</label>
+                <select name="tipo" id="tipo" onchange="aplicarFiltros()">
+                    <option value="">Todos</option>
+                    <option value="casa">Casa</option>
+                    <option value="apartamento">Apartamento</option>
+                </select>
+            </div>
+
+            <div class="grupo-filtro" style="min-width: 150px;">
+                <label>Preço Máximo (R$)</label>
+                <input type="number" id="inputPreco" placeholder="Ex: 2000000" oninput="aplicarFiltros()">
+            </div>
+
+            <button type="button" class="btn-aplicar" onclick="aplicarFiltros()">Atualizar</button>
+        </form>
+    </div>
+
+    <main class="main-resultados">
+        
+        <div class="topo-resultados">
+            <h2>Imóveis Disponíveis</h2>
+            <span id="contador-resultados">Carregando...</span>
+        </div>
+
+        <div class="lista-imoveis-vertical" id="lista-imoveis">
+            
+            <div class="card-imovel" data-cidade="sao-paulo" data-tipo="casa" data-finalidade="comprar" data-bairro="jardins" data-preco="1250000">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='img/casa 1.png') }}" alt="Casa Jardins">
+                    <span class="etiqueta">Venda</span>
+                </div>
+                <div class="card-info">
+                    <div class="top-info">
+                        <h3 class="preco">R$ 1.250.000</h3>
+                    </div>
+                    <h4 class="titulo-imovel">Residência Jardins</h4>
+                    <div class="detalhes-icones">
+                        <span>🛏️ 3 Quartos</span><span>🚿 2 Banheiros</span><span>📐 180m²</span>
+                    </div>
+                    <button class="btn-ver-mais">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <div class="card-imovel" data-cidade="sao-paulo" data-tipo="apartamento" data-finalidade="alugar" data-bairro="centro" data-preco="5500">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='img/casa 2.png') }}" alt="Apartamento Centro">
+                    <span class="etiqueta">Aluguel</span>
+                </div>
+                <div class="card-info">
+                    <div class="top-info">
+                        <h3 class="preco">R$ 5.500 <small>/mês</small></h3>
+                    </div>
+                    <h4 class="titulo-imovel">Apartamento Centro Histórico</h4>
+                    <div class="detalhes-icones">
+                        <span>🛏️ 2 Quartos</span><span>🚿 1 Banheiro</span><span>📐 85m²</span>
+                    </div>
+                    <button class="btn-ver-mais">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <div class="card-imovel" data-cidade="campinas" data-tipo="casa" data-finalidade="comprar" data-bairro="" data-preco="890000">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='img/casa 3.png') }}" alt="Sobrado Campinas">
+                    <span class="etiqueta">Venda</span>
+                </div>
+                <div class="card-info">
+                    <div class="top-info">
+                        <h3 class="preco">R$ 890.000</h3>
+                    </div>
+                    <h4 class="titulo-imovel">Sobrado em Condomínio</h4>
+                    <div class="detalhes-icones">
+                        <span>🛏️ 3 Quartos</span><span>🚗 2 Vagas</span><span>📐 120m²</span>
+                    </div>
+                    <button class="btn-ver-mais">Ver Detalhes</button>
+                </div>
+            </div>
+
+            <div class="card-imovel" data-cidade="rio" data-tipo="casa" data-finalidade="comprar" data-bairro="barra" data-preco="2100000">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='img/casa 4.png') }}" alt="Mansão Barra">
+                    <span class="etiqueta">Venda</span>
+                </div>
+                <div class="card-info">
+                    <div class="top-info">
+                        <h3 class="preco">R$ 2.100.000</h3>
+                    </div>
+                    <h4 class="titulo-imovel">Mansão Barra da Tijuca</h4>
+                    <div class="detalhes-icones">
+                        <span>🛏️ 4 Suítes</span><span>🏊 Piscina</span><span>📐 350m²</span>
+                    </div>
+                    <button class="btn-ver-mais">Ver Detalhes</button>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="mensagem-vazio" id="msg-sem-resultados">
+            <h3>Nenhum imóvel encontrado.</h3>
+            <p>Tente ajustar os filtros de preço ou localização.</p>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            preencherCampo('finalidade', params);
+            preencherCampo('cidade', params);
+            preencherCampo('bairro', params);
+            preencherCampo('tipo', params);
+            // Não preenchemos o preço automaticamente da URL neste exemplo simples, 
+            // mas poderia ser feito igual aos outros.
+
+            aplicarFiltros();
+        });
+
+        function preencherCampo(id, params) {
+            if(params.has(id) && params.get(id) !== "") {
+                document.getElementById(id).value = params.get(id);
+            }
+        }
+
+        function aplicarFiltros() {
+            const filtroFinalidade = document.getElementById('finalidade').value.toLowerCase();
+            const filtroCidade = document.getElementById('cidade').value.toLowerCase();
+            const filtroBairro = document.getElementById('bairro').value.toLowerCase();
+            const filtroTipo = document.getElementById('tipo').value.toLowerCase();
+            
+            // Lógica atualizada para o Input Number
+            // Se o campo estiver vazio, considera "Infinity" (sem limite)
+            let filtroPrecoInput = document.getElementById('inputPreco').value;
+            let filtroPreco = filtroPrecoInput ? parseFloat(filtroPrecoInput) : Infinity;
+
+            const cards = document.querySelectorAll('.card-imovel');
+            let visiveis = 0;
+
+            cards.forEach(card => {
+                const imovelFinalidade = card.getAttribute('data-finalidade');
+                const imovelCidade = card.getAttribute('data-cidade');
+                const imovelBairro = card.getAttribute('data-bairro');
+                const imovelTipo = card.getAttribute('data-tipo');
+                const imovelPreco = parseFloat(card.getAttribute('data-preco'));
+
+                const matchFinalidade = !filtroFinalidade || imovelFinalidade === filtroFinalidade;
+                const matchCidade = !filtroCidade || imovelCidade === filtroCidade;
+                const matchBairro = !filtroBairro || imovelBairro === filtroBairro;
+                const matchTipo = !filtroTipo || imovelTipo === filtroTipo;
+                const matchPreco = imovelPreco <= filtroPreco; // Compara com o valor digitado
+
+                if (matchFinalidade && matchCidade && matchBairro && matchTipo && matchPreco) {
+                    card.style.display = 'flex'; 
+                    visiveis++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const textoContador = visiveis === 1 ? '1 resultado' : visiveis + ' resultados';
+            document.getElementById('contador-resultados').textContent = textoContador;
+            
+            if(visiveis === 0) {
+                document.getElementById('msg-sem-resultados').style.display = 'block';
+            } else {
+                document.getElementById('msg-sem-resultados').style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>
